@@ -65,18 +65,14 @@ RUN mkdir -p ${TF_PLUGIN_CACHE_DIR}/linux_amd64 && \
     tfsec --version 
 
 # Customisations
-COPY *.sh /tmp/
-
 RUN adduser -Ds /bin/bash awsuser
+COPY *.sh /home/awsuser
 
-RUN . /tmp/10-tf-provider.sh && \
-    \
-    chmod -R 777 ${TF_PLUGIN_CACHE_DIR}
+ 
 
+# Cleanup \
+RUN rm -rf /tmp/* 
 USER awsuser
-
-RUN  . /tmp/20-bashrc.sh 
-
+RUN  . /home/awsuser/10-bashrc.sh
 WORKDIR /home/awsuser 
-
 ENTRYPOINT ["/bin/bash"]
