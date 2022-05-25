@@ -37,6 +37,7 @@ RUN \
     rm -rf /var/tmp/*
 
 RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+
 RUN \
     wget -q -O /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     unzip -q /tmp/terraform.zip -d /tmp && \
@@ -53,6 +54,7 @@ RUN wget -qO /tmp/terragrunt https://github.com/gruntwork-io/terragrunt/releases
     wget -qO /tmp/tfsec https://github.com/liamg/tfsec/releases/download/v${TFSEC_VERSION}/tfsec-linux-amd64 && \
     chmod +x /tmp/tfsec && \
     mv /tmp/tfsec /usr/local/bin 
+
 RUN mkdir -p ${TF_PLUGIN_CACHE_DIR}/linux_amd64 && \
     aws --version && \
     kubectl version --client && \
@@ -70,8 +72,11 @@ RUN adduser -Ds /bin/bash awsuser
 RUN . /tmp/10-tf-provider.sh && \
     \
     chmod -R 777 ${TF_PLUGIN_CACHE_DIR}
+
 USER awsuser
+
 RUN  . /tmp/20-bashrc.sh 
+
 WORKDIR /home/awsuser 
 
 ENTRYPOINT ["/bin/bash"]
