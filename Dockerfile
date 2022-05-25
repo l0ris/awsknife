@@ -14,18 +14,15 @@ RUN \
     bash \
     bash-completion \
     curl \
-    groff \
     git \
     jq \
     less \
     openssh-client \
-    tree \
     vim \
     wget \
     && \
     \
     pip3 install --upgrade awscli  s3cmd && \
-    pip3 install --upgrade pytest && \
     \
     wget -q -O /tmp/kubectl https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
     chmod +x /tmp/kubectl && \
@@ -68,7 +65,7 @@ RUN mkdir -p ${TF_PLUGIN_CACHE_DIR}/linux_amd64 && \
 RUN adduser -Ds /bin/bash awsuser
 COPY *.sh /home/awsuser
 
- 
+
 
 # Cleanup \
 RUN rm -rf /tmp/* 
